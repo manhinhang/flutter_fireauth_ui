@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fireauth_ui/password_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,28 +43,44 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
           return popCount == 0;
         });
       }, onError: (error) {
-        print(error);
-        if (error is PlatformException) {
-          PlatformException platformException = error;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => new AlertDialog(
-                  title: new Text("Error"),
-                  content: new Text(platformException.details),
-                  actions: <Widget>[
-                    new FlatButton(onPressed: () {
-
-                    }, child: new Text("OK"))
-                  ],
-                ),
-          );
-        }
+        _showError(error);
       });
     }
   }
 
+  Future<Null> _forgotPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
+    }catch(e) {
+      _showError(e);
+
+    }
+  }
+
+  void _showError(error) {
+    String errorMsg = "";
+    if(error is PlatformException) {
+      PlatformException platformException = error;
+      errorMsg = platformException.details;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => new AlertDialog(
+        title: new Text("Error"),
+        content: new Text(errorMsg),
+        actions: <Widget>[
+          new FlatButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: new Text("OK"))
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final TextStyle linkStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Sign In"),
@@ -73,6 +91,7 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
               child: new Padding(
             padding: const EdgeInsets.all(24.0),
             child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 new TextFormField(
                   initialValue: _email,
@@ -85,9 +104,6 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
                   onSaved: (String val) {
                     _email = val;
                   },
-                  onFieldSubmitted: (String val) {
-                    print("val$val");
-                  },
                   validator: _validateEmail,
                 ),
                 new SizedBox(
@@ -97,14 +113,17 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
                   //fieldKey: _passwordFieldKey,
                   helperText: 'No more than 8 characters.',
                   labelText: 'Password *',
-                  onFieldSubmitted: (String value) {
-//                    setState(() {
-//                      person.password = value;
-//                    });
-                  },
                   onSaved: (String value) {
                     _password = value;
                   },
+                ),
+                new Align(
+                  alignment: Alignment.centerLeft,
+                  child: new FlatButton(onPressed: _forgotPassword,
+                      child: new Text('Forgot password ?', style: linkStyle,),),
+                ),
+                new SizedBox(
+                  height: 12.0,
                 ),
                 new RaisedButton(
                   color: Theme.of(context).primaryColor,
