@@ -1,4 +1,4 @@
-group 'com.manhinhng.fireauthui'
+group 'com.manhinhang.fireauthui'
 version '1.0-SNAPSHOT'
 
 buildscript {

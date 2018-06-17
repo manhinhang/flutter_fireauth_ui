@@ -17,7 +17,7 @@ dependencies:
 # The following section is specific to Flutter.
 flutter:
   plugin:
-    androidPackage: com.manhinhng.fireauthui
+    androidPackage: com.manhinhang.fireauthui
     pluginClass: FireauthUiPlugin
 
   assets:

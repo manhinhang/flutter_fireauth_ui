@@ -1,4 +1,4 @@
-package com.manhinhng.fireauthui;
+package com.manhinhang.fireauthui;
 
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;

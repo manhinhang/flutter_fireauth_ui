@@ -1,4 +1,4 @@
-package com.manhinhng.fireauthuiexample;
+package com.manhinhang.fireauthuiexample;
 
 import android.os.Bundle;
 
