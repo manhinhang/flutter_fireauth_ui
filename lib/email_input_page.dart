@@ -28,7 +28,6 @@ class FireAuthUIEmailInputPageState extends State<FireAuthUIEmailInputPage> {
       _formKey.currentState.save();
       FirebaseAuth.instance.fetchProvidersForEmail(email: _email).then(
           (List<String> providers) {
-        print("provider: $providers");
         if (providers == null || providers.length == 0) {
           Navigator.push(
             context,
@@ -43,7 +42,11 @@ class FireAuthUIEmailInputPageState extends State<FireAuthUIEmailInputPage> {
           );
         }
       }, onError: (error) {
-        print("error : ${error}");
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => new FireAuthEmailSignUpPage(_email)),
+        );
       });
     }
   }
@@ -71,9 +74,6 @@ class FireAuthUIEmailInputPageState extends State<FireAuthUIEmailInputPage> {
                   keyboardType: TextInputType.emailAddress,
                   onSaved: (String val) {
                     _email = val;
-                  },
-                  onFieldSubmitted: (String val) {
-                    print("val$val");
                   },
                   validator: _validateEmail,
                 ),

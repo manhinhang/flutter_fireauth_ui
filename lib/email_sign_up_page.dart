@@ -54,7 +54,6 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
             context: context,
             builder: (BuildContext context) => new AlertDialog(title: new Text("Error"),),
           );
-          print(platformException.details);
         }
       });
     }

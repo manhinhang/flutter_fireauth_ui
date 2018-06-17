@@ -19,6 +19,8 @@ class FireauthUi {
   }
 }
 
+
+
 class FireAuthUIEmailOptions {
   final String signInButtonText = "Sign in with Email";
 }
