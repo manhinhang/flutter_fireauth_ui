@@ -34,33 +34,17 @@ class FireAuthUIFacebookOptions {
 class FireAuthUISignInPage extends StatefulWidget {
   final String title;
   final num buttonWidth;
-  FireAuthUIEmailOptions _emailOptions;
-  FireAuthUIGoogleOptions _googleOptions;
-  FireAuthUIFacebookOptions _facebookOptions;
+  final FireAuthUIEmailOptions emailOptions;
+  final FireAuthUIGoogleOptions googleOptions;
+  final FireAuthUIFacebookOptions facebookOptions;
 
   // ignore: non_constant_default_value
   FireAuthUISignInPage(
       {this.title = "Sign In",
       this.buttonWidth = 210.0,
-      emailOptions,
-      googleOptions,
-      facebookOptions}) {
-      if(emailOptions == null) {
-        _emailOptions = new FireAuthUIEmailOptions();
-      }else {
-        _emailOptions = emailOptions;
-      }
-      if(googleOptions == null) {
-        _googleOptions = new FireAuthUIGoogleOptions();
-      }else {
-        _googleOptions = googleOptions;
-      }
-      if(facebookOptions == null) {
-        _facebookOptions = new FireAuthUIFacebookOptions();
-      }else {
-        _facebookOptions = facebookOptions;
-      }
-  }
+      this.emailOptions,
+      this.googleOptions,
+      this.facebookOptions}) {}
 
   @override
   State<StatefulWidget> createState() {
@@ -112,7 +96,8 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
   void _signInWithEmail() {
     Navigator.push(
       context,
-      new MaterialPageRoute(builder: (context) => new FireAuthUIEmailInputPage()),
+      new MaterialPageRoute(
+          builder: (context) => new FireAuthUIEmailInputPage()),
     );
     /*
     if(!_formKey.currentState.validate()) {
@@ -128,7 +113,37 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    //return new Center(child: new Icon(Icons.close, color: Colors.red),);
+    List<Widget> widgets = [];
+    if (widget.emailOptions != null) {
+      widgets.add(new SizedBox(
+        height: _itemSpace,
+      ));
+      widgets.add(new EmailButton(
+        onPressed: _signInWithEmail,
+        labelText: widget.emailOptions.signInButtonText,
+      ));
+    }
+
+    if (widget.googleOptions != null) {
+      widgets.add(new SizedBox(
+        height: _itemSpace,
+      ));
+      widgets.add(new GoogleButton(
+        onPressed: _signInWithGoogle,
+        labelText: widget.googleOptions.signInButtonText,
+      ));
+    }
+
+    if (widget.facebookOptions != null) {
+      widgets.add(new SizedBox(
+        height: _itemSpace,
+      ));
+      widgets.add(new FacebookButton(
+        onPressed: _signInWithFacebook,
+        labelText: widget.facebookOptions.signInButtonText,
+      ));
+    }
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -139,29 +154,7 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
             width: widget.buttonWidth,
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                new SizedBox(
-                  height: _itemSpace,
-                ),
-                new EmailButton(
-                  onPressed: _signInWithEmail,
-                  labelText: widget._emailOptions.signInButtonText,
-                ),
-                new SizedBox(
-                  height: _itemSpace,
-                ),
-                new GoogleButton(
-                  onPressed: _signInWithGoogle,
-                  labelText: widget._googleOptions.signInButtonText,
-                ),
-                new SizedBox(
-                  height: _itemSpace,
-                ),
-                new FacebookButton(
-                  onPressed: _signInWithFacebook,
-                  labelText: widget._facebookOptions.signInButtonText,
-                ),
-              ],
+              children: widgets,
             ),
           ),
         ),
