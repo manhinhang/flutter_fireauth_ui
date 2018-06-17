@@ -19,34 +19,16 @@ class FireauthUi {
   }
 }
 
-
-
-class FireAuthUIEmailOptions {
-  final String signInButtonText = "Sign in with Email";
-}
-
-class FireAuthUIGoogleOptions {
-  final String signInButtonText = "Sign in with Google";
-}
-
-class FireAuthUIFacebookOptions {
-  final String signInButtonText = "Sign in with Facebook";
-}
+enum FireAuthUIProvider { Facebook, Google, Email }
 
 class FireAuthUISignInPage extends StatefulWidget {
   final String title;
   final num buttonWidth;
-  final FireAuthUIEmailOptions emailOptions;
-  final FireAuthUIGoogleOptions googleOptions;
-  final FireAuthUIFacebookOptions facebookOptions;
+  final List<FireAuthUIProvider> providers;
 
   // ignore: non_constant_default_value
   FireAuthUISignInPage(
-      {this.title = "Sign In",
-      this.buttonWidth = 210.0,
-      this.emailOptions,
-      this.googleOptions,
-      this.facebookOptions}) {}
+      {this.title = "Sign In", this.buttonWidth = 210.0, this.providers});
 
   @override
   State<StatefulWidget> createState() {
@@ -64,7 +46,6 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
     ],
   );
   final FacebookLogin _facebookLogin = new FacebookLogin();
-  FirebaseUser _firebaseUser;
   final double _itemSpace = 24.0;
 
   Future<Null> _signInWithFacebook() async {
@@ -72,8 +53,9 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        _firebaseUser = await _auth.signInWithFacebook(
-            accessToken: result.accessToken.token);
+        try {
+          await _auth.signInWithFacebook(accessToken: result.accessToken.token);
+        } catch (e) {}
         break;
       case FacebookLoginStatus.cancelledByUser:
         break;
@@ -86,7 +68,7 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      _firebaseUser = await _auth.signInWithGoogle(
+      await _auth.signInWithGoogle(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
@@ -101,50 +83,57 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
       new MaterialPageRoute(
           builder: (context) => new FireAuthUIEmailInputPage()),
     );
-    /*
-    if(!_formKey.currentState.validate()) {
-      return;
-    }
-    _formKey.currentState.save();
-    print("Password:$password, $email");
-    _auth.signInWithEmailAndPassword(email: email, password: password);
-    */
   }
 
   void _showError(String errMsg) {}
 
+  Widget _buildEmailButton() {
+    return new EmailButton(
+      onPressed: _signInWithEmail,
+      labelText: "Sign in with Email",
+    );
+  }
+
+  Widget _buildFacebookButton() {
+    return new FacebookButton(
+      onPressed: _signInWithFacebook,
+      labelText: "Sign in with Facebook",
+    );
+  }
+
+  Widget _buildGoogleButton() {
+    return new GoogleButton(
+      onPressed: _signInWithGoogle,
+      labelText: "Sign in with Google",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = [];
-    if (widget.emailOptions != null) {
-      widgets.add(new SizedBox(
-        height: _itemSpace,
-      ));
-      widgets.add(new EmailButton(
-        onPressed: _signInWithEmail,
-        labelText: widget.emailOptions.signInButtonText,
-      ));
-    }
+    List<Widget> widgets = widget.providers.map((FireAuthUIProvider provider) {
+      Widget button;
+      switch (provider) {
+        case FireAuthUIProvider.Facebook:
+          button = _buildFacebookButton();
+          break;
+        case FireAuthUIProvider.Google:
+          button = _buildGoogleButton();
+          break;
+        case FireAuthUIProvider.Email:
+          button = _buildEmailButton();
+          break;
+      }
 
-    if (widget.googleOptions != null) {
-      widgets.add(new SizedBox(
-        height: _itemSpace,
-      ));
-      widgets.add(new GoogleButton(
-        onPressed: _signInWithGoogle,
-        labelText: widget.googleOptions.signInButtonText,
-      ));
-    }
+      return new Column(
+        children: <Widget>[
+          button,
+          new SizedBox(
+            height: _itemSpace,
+          )
+        ],
+      );
+    }).toList();
 
-    if (widget.facebookOptions != null) {
-      widgets.add(new SizedBox(
-        height: _itemSpace,
-      ));
-      widgets.add(new FacebookButton(
-        onPressed: _signInWithFacebook,
-        labelText: widget.facebookOptions.signInButtonText,
-      ));
-    }
 
     return new Scaffold(
       appBar: new AppBar(
@@ -153,6 +142,7 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
       body: new SingleChildScrollView(
         child: new Center(
           child: new Container(
+            padding: EdgeInsets.only(top: _itemSpace),
             width: widget.buttonWidth,
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

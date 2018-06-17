@@ -22,16 +22,21 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showSignInPage() {
+    List<FireAuthUIProvider> providers = [];
+    if (emailEnable) {
+      providers.add(FireAuthUIProvider.Email);
+    }
+
+    if (facebookEnable) {
+      providers.add(FireAuthUIProvider.Facebook);
+    }
+
+    if (googleEnable) {
+      providers.add(FireAuthUIProvider.Google);
+    }
     Navigator.push(
       context,
-      new MaterialPageRoute(
-          builder: (context) => new FireAuthUISignInPage(
-                emailOptions: emailEnable ? new FireAuthUIEmailOptions() : null,
-                facebookOptions:
-                    facebookEnable ? new FireAuthUIFacebookOptions() : null,
-                googleOptions:
-                    googleEnable ? new FireAuthUIGoogleOptions() : null,
-              )),
+      new MaterialPageRoute(builder: (context) => new FireAuthUISignInPage(providers: providers,)),
     );
   }
 
