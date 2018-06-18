@@ -1,0 +1,99 @@
+{
+  "@@last_modified": "2018-06-18T20:13:20.063452",
+  "facebookSignInButton": "Sign in with Facebook",
+  "@facebookSignInButton": {
+    "description": "Text for facebook sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "googleSignInButton": "Sign in with Google",
+  "@googleSignInButton": {
+    "description": "Text for google sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailSignInButton": "Sign in with Email",
+  "@emailSignInButton": {
+    "description": "Text for Email sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "text of sign in",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "text of sign up",
+    "type": "text",
+    "placeholders": {}
+  },
+  "email": "Email",
+  "@email": {
+    "description": "email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "enter your email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emptyEmailWarning": "Please enter your email",
+  "@emptyEmailWarning": {
+    "description": "email is empty",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidEmailWarning": "Invalid email",
+  "@invalidEmailWarning": {
+    "description": "invalid eamil",
+    "type": "text",
+    "placeholders": {}
+  },
+  "continueText": "Continue",
+  "@continueText": {
+    "description": "continue",
+    "type": "text",
+    "placeholders": {}
+  },
+  "error": "Error",
+  "@error": {
+    "description": "error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "okay": "OK",
+  "@okay": {
+    "description": "okay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayName": "Display Name",
+  "@displayName": {
+    "description": "Display Name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameHint": "Enter your display name",
+  "@displayNameHint": {
+    "description": "Display Name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Password *",
+  "@password": {
+    "description": "password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forgotPassword": "Forgot Password ? ",
+  "@forgotPassword": {
+    "description": "forgotPassword",
+    "type": "text",
+    "placeholders": {}
+  }
+}
