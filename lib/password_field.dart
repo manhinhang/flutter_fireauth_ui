@@ -10,6 +10,7 @@ class FireAuthUIPasswordField extends StatefulWidget {
     this.validator,
     this.onFieldSubmitted,
     this.enabled,
+    this.focusNode,
   });
 
   final Key fieldKey;
@@ -20,6 +21,7 @@ class FireAuthUIPasswordField extends StatefulWidget {
   final FormFieldValidator<String> validator;
   final ValueChanged<String> onFieldSubmitted;
   final enabled;
+  final FocusNode focusNode;
 
   @override
   _PasswordFieldState createState() => new _PasswordFieldState();
@@ -36,6 +38,7 @@ class _PasswordFieldState extends State<FireAuthUIPasswordField> {
       maxLength: 8,
       onSaved: widget.onSaved,
       validator: widget.validator,
+      focusNode: widget.focusNode,
       onFieldSubmitted: widget.onFieldSubmitted,
       decoration: new InputDecoration(
         border: const UnderlineInputBorder(),

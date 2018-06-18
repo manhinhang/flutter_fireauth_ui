@@ -23,6 +23,8 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
   String _displayName;
   String _password;
   bool _loading = false;
+  FocusNode _displayNameFocusNode = new FocusNode();
+  FocusNode _passwordFocusNode = new FocusNode();
 
   FireAuthEmailSignUpPageState(String email) : _email = email;
 
@@ -105,6 +107,9 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   onSaved: (String val) {
                     _email = val;
                   },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_displayNameFocusNode);
+                  },
                   validator: _validateEmail,
                   enabled: !_loading,
                 ),
@@ -112,6 +117,7 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   height: 24.0,
                 ),
                 new TextFormField(
+                  focusNode: _displayNameFocusNode,
                   decoration: new InputDecoration(
                     hintText:
                         FireAuthUILocalizations.of(context).displayNameHint,
@@ -122,12 +128,17 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   onSaved: (String val) {
                     _displayName = val;
                   },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  },
                   enabled: !_loading,
+
                 ),
                 new SizedBox(
                   height: 24.0,
                 ),
                 new FireAuthUIPasswordField(
+                  focusNode: _displayNameFocusNode,
                   labelText: FireAuthUILocalizations.of(context).password,
                   onSaved: (String val) {
                     _password = val;
