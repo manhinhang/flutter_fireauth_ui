@@ -39,6 +39,9 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
   Future _onSignUp() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      setState(() {
+        _loading = true;
+      });
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _email,
@@ -55,6 +58,9 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
       } catch (e) {
         _showError(e);
       }
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -86,69 +92,75 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
       appBar: new AppBar(
         title: new Text(FireAuthUILocalizations.of(context).signIn),
       ),
-      body: new Form(
-          key: _formKey,
-          child: new SingleChildScrollView(
-              child: new Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                new TextFormField(
-                  initialValue: _email,
-                  decoration: new InputDecoration(
-                    hintText: FireAuthUILocalizations.of(context).emailHint,
-                    labelText: FireAuthUILocalizations.of(context).email,
-                    filled: true,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  onSaved: (String val) {
-                    _email = val;
-                  },
-                  validator: _validateEmail,
-                  enabled: !_loading,
+      body: new Stack(
+        children: <Widget>[
+          _loading ? new LinearProgressIndicator() : new Container(),
+          new Form(
+              key: _formKey,
+              child: new SingleChildScrollView(
+                  child: new Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    new TextFormField(
+                      initialValue: _email,
+                      decoration: new InputDecoration(
+                        hintText: FireAuthUILocalizations.of(context).emailHint,
+                        labelText: FireAuthUILocalizations.of(context).email,
+                        filled: true,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      onSaved: (String val) {
+                        _email = val;
+                      },
+                      validator: _validateEmail,
+                      enabled: !_loading,
+                    ),
+                    new SizedBox(
+                      height: 24.0,
+                    ),
+                    new TextFormField(
+                      decoration: new InputDecoration(
+                        hintText:
+                            FireAuthUILocalizations.of(context).displayNameHint,
+                        labelText:
+                            FireAuthUILocalizations.of(context).displayName,
+                        filled: true,
+                      ),
+                      keyboardType: TextInputType.text,
+                      onSaved: (String val) {
+                        _displayName = val;
+                      },
+                      enabled: !_loading,
+                    ),
+                    new SizedBox(
+                      height: 24.0,
+                    ),
+                    new FireAuthUIPasswordField(
+                      labelText: FireAuthUILocalizations.of(context).password,
+                      onSaved: (String val) {
+                        _password = val;
+                      },
+                      enabled: !_loading,
+                    ),
+                    new RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: _loading ? null : _onSignUp,
+                      child: new Text(
+                        FireAuthUILocalizations.of(context).signUp,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: Colors.white),
+                      ),
+                    )
+                  ],
                 ),
-                new SizedBox(
-                  height: 24.0,
-                ),
-                new TextFormField(
-                  decoration: new InputDecoration(
-                    hintText:
-                        FireAuthUILocalizations.of(context).displayNameHint,
-                    labelText: FireAuthUILocalizations.of(context).displayName,
-                    filled: true,
-                  ),
-                  keyboardType: TextInputType.text,
-                  onSaved: (String val) {
-                    _displayName = val;
-                  },
-                  enabled: !_loading,
-                ),
-                new SizedBox(
-                  height: 24.0,
-                ),
-                new FireAuthUIPasswordField(
-                  labelText: FireAuthUILocalizations.of(context).password,
-                  onSaved: (String val) {
-                    _password = val;
-                  },
-                  enabled: !_loading,
-                ),
-                new RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  onPressed: _loading ? null : _onSignUp,
-                  child: new Text(
-                    FireAuthUILocalizations.of(context).signUp,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .button
-                        .copyWith(color: Colors.white),
-                  ),
-                )
-              ],
-            ),
-          ))),
+              )))
+        ],
+      ),
     );
   }
 }
