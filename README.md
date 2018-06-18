@@ -22,6 +22,7 @@ Support language
 - Chinses (Tranditional)
 
 Email sign in demo screen
+
 ![email_demo_video](docs/email_demo.gif)
 
 ## Installation
