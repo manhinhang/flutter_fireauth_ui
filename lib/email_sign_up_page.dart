@@ -128,8 +128,6 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   height: 24.0,
                 ),
                 new FireAuthUIPasswordField(
-                  //fieldKey: _passwordFieldKey,
-                  helperText: 'No more than 8 characters.',
                   labelText: FireAuthUILocalizations.of(context).password,
                   onSaved: (String val) {
                     _password = val;
