@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fireauth_ui/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:fireauth_ui/password_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,10 +25,12 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
   FireAuthEmailSignInPageState(String email) : _email = email;
 
   String _validateEmail(String value) {
-    if (value.isEmpty) return 'Please enter email';
+    if (value.isEmpty)
+      return FireAuthUILocalizations.of(context).emptyEmailWarning;
     final RegExp nameExp =
         new RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
-    if (!nameExp.hasMatch(value)) return 'Invalid email';
+    if (!nameExp.hasMatch(value))
+      return FireAuthUILocalizations.of(context).invalidEmailWarning;
     return null;
   }
 
@@ -51,39 +54,41 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
   Future<Null> _forgotPassword() async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
-    }catch(e) {
+    } catch (e) {
       _showError(e);
-
     }
   }
 
   void _showError(error) {
     String errorMsg = "";
-    if(error is PlatformException) {
+    if (error is PlatformException) {
       PlatformException platformException = error;
       errorMsg = platformException.details;
     }
     showDialog(
       context: context,
       builder: (BuildContext context) => new AlertDialog(
-        title: new Text("Error"),
-        content: new Text(errorMsg),
-        actions: <Widget>[
-          new FlatButton(onPressed: () {
-            Navigator.pop(context);
-          }, child: new Text("OK"))
-        ],
-      ),
+            title: new Text(FireAuthUILocalizations.of(context).error),
+            content: new Text(errorMsg),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: new Text(FireAuthUILocalizations.of(context).okay))
+            ],
+          ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final TextStyle linkStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+    final TextStyle linkStyle =
+        themeData.textTheme.body2.copyWith(color: themeData.accentColor);
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Sign In"),
+        title: new Text(FireAuthUILocalizations.of(context).signIn),
       ),
       body: new Form(
           key: _formKey,
@@ -95,14 +100,14 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
               children: <Widget>[
                 new TextFormField(
                   initialValue: _email,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email',
-                    labelText: 'Email',
+                  decoration: new InputDecoration(
+                    hintText: FireAuthUILocalizations.of(context).emailHint,
+                    labelText: FireAuthUILocalizations.of(context).email,
                     filled: true,
                   ),
                   keyboardType: TextInputType.emailAddress,
-                  onSaved: (String val) {
-                    _email = val;
+                  onSaved: (String value) {
+                    _email = value;
                   },
                   validator: _validateEmail,
                 ),
@@ -112,15 +117,20 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
                 new FireAuthUIPasswordField(
                   //fieldKey: _passwordFieldKey,
                   helperText: 'No more than 8 characters.',
-                  labelText: 'Password *',
+                  labelText: FireAuthUILocalizations.of(context).password,
                   onSaved: (String value) {
                     _password = value;
                   },
                 ),
                 new Align(
                   alignment: Alignment.centerLeft,
-                  child: new FlatButton(onPressed: _forgotPassword,
-                      child: new Text('Forgot password ?', style: linkStyle,),),
+                  child: new FlatButton(
+                    onPressed: _forgotPassword,
+                    child: new Text(
+                      FireAuthUILocalizations.of(context).forgotPassword,
+                      style: linkStyle,
+                    ),
+                  ),
                 ),
                 new SizedBox(
                   height: 12.0,
@@ -129,7 +139,7 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
                   color: Theme.of(context).primaryColor,
                   onPressed: _onSignIn,
                   child: new Text(
-                    "Next",
+                    FireAuthUILocalizations.of(context).signIn,
                     style: Theme
                         .of(context)
                         .textTheme

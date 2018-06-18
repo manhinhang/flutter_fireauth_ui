@@ -1,5 +1,7 @@
 # fireauth_ui
 
+[![Build Status](https://travis-ci.org/manhinhang/flutter_fireauth_ui.svg?branch=master)](https://travis-ci.org/manhinhang/flutter_fireauth_ui)
+
 Allows you to quickly connect common Firebase auth UI 
 
 ## Getting Started

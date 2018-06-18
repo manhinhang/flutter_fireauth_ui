@@ -10,11 +10,20 @@ dependencies:
   firebase_auth: "^0.5.11"
   google_sign_in: "^3.0.4"
   flutter_facebook_login: "^1.1.1"
+  flutter_localizations:
+      sdk: flutter
 
+dev_dependencies:
+  intl_translation: "^0.16.6"
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+transformers:
+- intl_translation:
+    $include:
+    - lib/localizations.dart
 flutter:
   plugin:
     androidPackage: com.manhinhang.fireauthui

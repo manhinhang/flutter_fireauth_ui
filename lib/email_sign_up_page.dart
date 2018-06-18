@@ -1,3 +1,4 @@
+import 'package:fireauth_ui/localizations.dart';
 import 'package:fireauth_ui/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,10 +24,12 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
   FireAuthEmailSignUpPageState(String email) : _email = email;
 
   String _validateEmail(String value) {
-    if (value.isEmpty) return 'Please enter email';
+    if (value.isEmpty)
+      return FireAuthUILocalizations.of(context).emptyEmailWarning;
     final RegExp nameExp =
         new RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
-    if (!nameExp.hasMatch(value)) return 'Invalid email';
+    if (!nameExp.hasMatch(value))
+      return FireAuthUILocalizations.of(context).invalidEmailWarning;
     return null;
   }
 
@@ -52,7 +55,9 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
           PlatformException platformException = error;
           showDialog(
             context: context,
-            builder: (BuildContext context) => new AlertDialog(title: new Text("Error"),),
+            builder: (BuildContext context) => new AlertDialog(
+                  title: new Text(FireAuthUILocalizations.of(context).error),
+                ),
           );
         }
       });
@@ -63,7 +68,7 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Sign Up"),
+        title: new Text(FireAuthUILocalizations.of(context).signIn),
       ),
       body: new Form(
           key: _formKey,
@@ -71,12 +76,13 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
               child: new Padding(
             padding: const EdgeInsets.all(24.0),
             child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 new TextFormField(
                   initialValue: _email,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email',
-                    labelText: 'Email',
+                  decoration: new InputDecoration(
+                    hintText: FireAuthUILocalizations.of(context).emailHint,
+                    labelText: FireAuthUILocalizations.of(context).email,
                     filled: true,
                   ),
                   keyboardType: TextInputType.emailAddress,
@@ -89,9 +95,9 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   height: 24.0,
                 ),
                 new TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your name',
-                    labelText: 'Display Name',
+                  decoration: new InputDecoration(
+                    hintText: FireAuthUILocalizations.of(context).displayNameHint,
+                    labelText: FireAuthUILocalizations.of(context).displayName,
                     filled: true,
                   ),
                   keyboardType: TextInputType.text,
@@ -105,7 +111,7 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                 new FireAuthUIPasswordField(
                   //fieldKey: _passwordFieldKey,
                   helperText: 'No more than 8 characters.',
-                  labelText: 'Password *',
+                  labelText: FireAuthUILocalizations.of(context).password,
                   onSaved: (String val) {
                     _password = val;
                   },
@@ -114,7 +120,7 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   color: Theme.of(context).primaryColor,
                   onPressed: _onSignUp,
                   child: new Text(
-                    "Next",
+                    FireAuthUILocalizations.of(context).signUp,
                     style: Theme
                         .of(context)
                         .textTheme

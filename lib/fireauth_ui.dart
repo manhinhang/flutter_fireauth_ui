@@ -9,6 +9,9 @@ import 'package:fireauth_ui/facebook_button.dart';
 import 'package:fireauth_ui/google_button.dart';
 import 'package:fireauth_ui/email_button.dart';
 import 'package:fireauth_ui/email_input_page.dart';
+import 'package:fireauth_ui/localizations.dart';
+export 'package:fireauth_ui/localizations.dart' show FireAuthUILocalizations;
+export 'package:fireauth_ui/localizations.dart' show FireAuthUILocalizationsDelegate;
 
 class FireauthUi {
   static const MethodChannel _channel = const MethodChannel('fireauth_ui');
@@ -90,21 +93,21 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
   Widget _buildEmailButton() {
     return new EmailButton(
       onPressed: _signInWithEmail,
-      labelText: "Sign in with Email",
+      labelText: FireAuthUILocalizations.of(context).emailSignInButton,
     );
   }
 
   Widget _buildFacebookButton() {
     return new FacebookButton(
       onPressed: _signInWithFacebook,
-      labelText: "Sign in with Facebook",
+      labelText: FireAuthUILocalizations.of(context).facebookSignInButton,
     );
   }
 
   Widget _buildGoogleButton() {
     return new GoogleButton(
       onPressed: _signInWithGoogle,
-      labelText: "Sign in with Google",
+      labelText: FireAuthUILocalizations.of(context).googleSignInButton,
     );
   }
 
@@ -137,7 +140,7 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(widget.title),
+        title: new Text(FireAuthUILocalizations.of(context).signIn),
       ),
       body: new SingleChildScrollView(
         child: new Center(

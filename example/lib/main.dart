@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fireauth_ui/fireauth_ui.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(new MaterialApp(
+      localizationsDelegates: [
+        // ... app-specific localization delegate[s] here
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FireAuthUILocalizationsDelegate.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('jp', 'JP'), // Hebrew
+        const Locale('zh_HK', 'HK'), // Hebrew
+        // ... other locales the app supports
+      ],
       home: new MyApp(),
+      localeResolutionCallback:
+          (Locale locale, Iterable<Locale> supportedLocales) {
+        return locale;
+      },
     ));
 
 class MyApp extends StatefulWidget {
@@ -36,7 +53,10 @@ class _MyAppState extends State<MyApp> {
     }
     Navigator.push(
       context,
-      new MaterialPageRoute(builder: (context) => new FireAuthUISignInPage(providers: providers,)),
+      new MaterialPageRoute(
+          builder: (context) => new FireAuthUISignInPage(
+                providers: providers,
+              )),
     );
   }
 
