@@ -9,6 +9,7 @@ class FireAuthUIPasswordField extends StatefulWidget {
     this.onSaved,
     this.validator,
     this.onFieldSubmitted,
+    this.enabled,
   });
 
   final Key fieldKey;
@@ -18,6 +19,7 @@ class FireAuthUIPasswordField extends StatefulWidget {
   final FormFieldSetter<String> onSaved;
   final FormFieldValidator<String> validator;
   final ValueChanged<String> onFieldSubmitted;
+  final enabled;
 
   @override
   _PasswordFieldState createState() => new _PasswordFieldState();
@@ -41,6 +43,7 @@ class _PasswordFieldState extends State<FireAuthUIPasswordField> {
         hintText: widget.hintText,
         labelText: widget.labelText,
         helperText: widget.helperText,
+        enabled: widget.enabled,
         suffixIcon: new GestureDetector(
           onTap: () {
             setState(() {

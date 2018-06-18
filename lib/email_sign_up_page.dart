@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fireauth_ui/localizations.dart';
 import 'package:fireauth_ui/password_field.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
   String _email;
   String _displayName;
   String _password;
+  bool _loading = false;
 
   FireAuthEmailSignUpPageState(String email) : _email = email;
 
@@ -33,15 +36,14 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
     return null;
   }
 
-  void _onSignUp() {
+  Future _onSignUp() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-        email: _email,
-        password: _password,
-      )
-          .then((user) {
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
         UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
         userUpdateInfo.displayName = _displayName;
         FirebaseAuth.instance.updateProfile(userUpdateInfo);
@@ -50,18 +52,32 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
           popCount--;
           return popCount == 0;
         });
-      }, onError: (error) {
-        if (error is PlatformException) {
-          PlatformException platformException = error;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => new AlertDialog(
-                  title: new Text(FireAuthUILocalizations.of(context).error),
-                ),
-          );
-        }
-      });
+      } catch (e) {
+        _showError(e);
+      }
     }
+  }
+
+  void _showError(error) {
+    String errorMsg = "";
+    if (error is PlatformException) {
+      PlatformException platformException = error;
+      errorMsg = platformException.details;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => new AlertDialog(
+            title: new Text(FireAuthUILocalizations.of(context).error),
+            content: new Text(errorMsg),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: new Text(FireAuthUILocalizations.of(context).okay))
+            ],
+          ),
+    );
   }
 
   @override
@@ -90,13 +106,15 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                     _email = val;
                   },
                   validator: _validateEmail,
+                  enabled: !_loading,
                 ),
                 new SizedBox(
                   height: 24.0,
                 ),
                 new TextFormField(
                   decoration: new InputDecoration(
-                    hintText: FireAuthUILocalizations.of(context).displayNameHint,
+                    hintText:
+                        FireAuthUILocalizations.of(context).displayNameHint,
                     labelText: FireAuthUILocalizations.of(context).displayName,
                     filled: true,
                   ),
@@ -104,6 +122,7 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   onSaved: (String val) {
                     _displayName = val;
                   },
+                  enabled: !_loading,
                 ),
                 new SizedBox(
                   height: 24.0,
@@ -115,10 +134,11 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   onSaved: (String val) {
                     _password = val;
                   },
+                  enabled: !_loading,
                 ),
                 new RaisedButton(
                   color: Theme.of(context).primaryColor,
-                  onPressed: _onSignUp,
+                  onPressed: _loading ? null : _onSignUp,
                   child: new Text(
                     FireAuthUILocalizations.of(context).signUp,
                     style: Theme

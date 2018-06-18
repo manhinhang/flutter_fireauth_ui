@@ -11,7 +11,8 @@ import 'package:fireauth_ui/email_button.dart';
 import 'package:fireauth_ui/email_input_page.dart';
 import 'package:fireauth_ui/localizations.dart';
 export 'package:fireauth_ui/localizations.dart' show FireAuthUILocalizations;
-export 'package:fireauth_ui/localizations.dart' show FireAuthUILocalizationsDelegate;
+export 'package:fireauth_ui/localizations.dart'
+    show FireAuthUILocalizationsDelegate;
 
 class FireauthUi {
   static const MethodChannel _channel = const MethodChannel('fireauth_ui');
@@ -50,15 +51,25 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
   );
   final FacebookLogin _facebookLogin = new FacebookLogin();
   final double _itemSpace = 24.0;
+  bool _loading = false;
 
   Future<Null> _signInWithFacebook() async {
     var result = await _facebookLogin.logInWithReadPermissions(['email']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
+        setState(() {
+          _loading = true;
+        });
         try {
           await _auth.signInWithFacebook(accessToken: result.accessToken.token);
-        } catch (e) {}
+          Navigator.pop(context);
+        } catch (e) {
+          _showError(e);
+        }
+        setState(() {
+          _loading = false;
+        });
         break;
       case FacebookLoginStatus.cancelledByUser:
         break;
@@ -75,8 +86,9 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      Navigator.pop(context);
     } catch (e) {
-      print(e.error);
+      _showError(e);
     }
   }
 
@@ -92,21 +104,21 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
 
   Widget _buildEmailButton() {
     return new EmailButton(
-      onPressed: _signInWithEmail,
+      onPressed: _loading ? null : _signInWithEmail,
       labelText: FireAuthUILocalizations.of(context).emailSignInButton,
     );
   }
 
   Widget _buildFacebookButton() {
     return new FacebookButton(
-      onPressed: _signInWithFacebook,
+      onPressed: _loading ? null : _signInWithFacebook,
       labelText: FireAuthUILocalizations.of(context).facebookSignInButton,
     );
   }
 
   Widget _buildGoogleButton() {
     return new GoogleButton(
-      onPressed: _signInWithGoogle,
+      onPressed: _loading ? null : _signInWithGoogle,
       labelText: FireAuthUILocalizations.of(context).googleSignInButton,
     );
   }
@@ -137,22 +149,26 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
       );
     }).toList();
 
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(FireAuthUILocalizations.of(context).signIn),
       ),
-      body: new SingleChildScrollView(
-        child: new Center(
-          child: new Container(
-            padding: EdgeInsets.only(top: _itemSpace),
-            width: widget.buttonWidth,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: widgets,
+      body: new Stack(
+        children: <Widget>[
+          _loading ? new LinearProgressIndicator() : new Container(),
+          new SingleChildScrollView(
+            child: new Center(
+              child: new Container(
+                padding: EdgeInsets.only(top: _itemSpace),
+                width: widget.buttonWidth,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: widgets,
+                ),
+              ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
     );
   }

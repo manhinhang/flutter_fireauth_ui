@@ -1,6 +1,5 @@
 
 import 'package:fireauth_ui/l10n/messages_all.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
