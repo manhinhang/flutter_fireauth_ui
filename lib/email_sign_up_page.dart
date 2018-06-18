@@ -138,10 +138,13 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                   height: 24.0,
                 ),
                 new FireAuthUIPasswordField(
-                  focusNode: _displayNameFocusNode,
+                  focusNode: _passwordFocusNode,
                   labelText: FireAuthUILocalizations.of(context).password,
                   onSaved: (String val) {
                     _password = val;
+                  },
+                  onFieldSubmitted: (_) {
+                    _onSignUp();
                   },
                   enabled: !_loading,
                 ),
