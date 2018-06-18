@@ -1,6 +1,7 @@
 # fireauth_ui
 
-[![Build Status](https://www.bitrise.io/app/5200f74e30b34a48/status.svg?token=OC_Yo2MikC22ZFfwKpXavg)](https://www.bitrise.io/app/5200f74e30b34a48)
+[![Build Status](https://www.bitrise.io/app/5200f74e30b34a48/status.svg?token=OC_Yo2MikC22ZFfwKpXavg)](https://www.bitrise.io/app/5200f74e30b34a48) 
+[![pub package](https://img.shields.io/pub/v/fireauth_ui.svg)](https://pub.dartlang.org/packages/fireauth_ui)
 
 Allows you to quickly connect common Firebase auth with basic UI.
 
@@ -13,6 +14,15 @@ Allows you to quickly connect common Firebase auth with basic UI.
 | Facebook          | ✅                |
 | Twitter           | ❌                |
 | Github            | ❌                |
+
+Support language
+
+- English
+
+- Chinses (Tranditional)
+
+Email sign in demo screen
+![email_demo_video](docs/email_demo.gif)
 
 ## Installation
 
