@@ -22,6 +22,7 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
   String _email;
   String _password;
   bool _loading = false;
+  FocusNode _passwordFocusNode = new FocusNode();
 
   FireAuthEmailSignInPageState(String email) : _email = email;
 
@@ -126,6 +127,9 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
                       onSaved: (String value) {
                         _email = value;
                       },
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(_passwordFocusNode);
+                      },
                       validator: _validateEmail,
                       enabled: !_loading,
                     ),
@@ -133,9 +137,13 @@ class FireAuthEmailSignInPageState extends State<FireAuthEmailSignInPage> {
                       height: 24.0,
                     ),
                     new FireAuthUIPasswordField(
+                      focusNode: _passwordFocusNode,
                       labelText: FireAuthUILocalizations.of(context).password,
                       onSaved: (String value) {
                         _password = value;
+                      },
+                      onFieldSubmitted: (_) {
+                        _onSignIn();
                       },
                       enabled: !_loading,
                     ),
