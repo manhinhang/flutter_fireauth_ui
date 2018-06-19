@@ -112,8 +112,12 @@ class FireAuthUIEmailInputPageState extends State<FireAuthUIEmailInputPage> {
                       onSaved: (String val) {
                         _email = val;
                       },
+                      onFieldSubmitted: (_) {
+                        _onNextStep();
+                      },
                       validator: _validateEmail,
                       enabled: _loading == false,
+                      autofocus: true,
                     ),
                     new SizedBox(
                       height: 24.0,

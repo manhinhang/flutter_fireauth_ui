@@ -23,6 +23,8 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
   String _displayName;
   String _password;
   bool _loading = false;
+  FocusNode _displayNameFocusNode = new FocusNode();
+  FocusNode _passwordFocusNode = new FocusNode();
 
   FireAuthEmailSignUpPageState(String email) : _email = email;
 
