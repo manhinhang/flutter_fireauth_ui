@@ -26,13 +26,12 @@ class FireauthUi {
 enum FireAuthUIProvider { Facebook, Google, Email }
 
 class FireAuthUISignInPage extends StatefulWidget {
-  final String title;
   final num buttonWidth;
   final List<FireAuthUIProvider> providers;
 
   // ignore: non_constant_default_value
   FireAuthUISignInPage(
-      {this.title = "Sign In", this.buttonWidth = 210.0, this.providers});
+      {this.buttonWidth = 210.0, this.providers});
 
   @override
   State<StatefulWidget> createState() {
@@ -108,7 +107,27 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
     );
   }
 
-  void _showError(errMsg) {}
+  void _showError(error) {
+    String errorMsg = "";
+    if (error is PlatformException) {
+      PlatformException platformException = error;
+      errorMsg = platformException.details;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => new AlertDialog(
+        title: new Text(FireAuthUILocalizations.of(context).error),
+        content: new Text(errorMsg),
+        actions: <Widget>[
+          new FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: new Text(FireAuthUILocalizations.of(context).okay))
+        ],
+      ),
+    );
+  }
 
   Widget _buildEmailButton() {
     return new EmailButton(
