@@ -100,7 +100,7 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
     );
   }
 
-  void _showError(String errMsg) {}
+  void _showError(errMsg) {}
 
   Widget _buildEmailButton() {
     return new EmailButton(

@@ -7,6 +7,4 @@ pubspec.lock
 
 build/
 .idea
-GoogleService-Info.plist
-google-services.json
 local.properties
