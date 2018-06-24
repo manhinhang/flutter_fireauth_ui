@@ -54,31 +54,36 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
   bool _loading = false;
 
   Future<Null> _signInWithFacebook() async {
+    setState(() {
+      _loading = true;
+    });
     var result = await _facebookLogin.logInWithReadPermissions(['email']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        setState(() {
-          _loading = true;
-        });
+
         try {
           await _auth.signInWithFacebook(accessToken: result.accessToken.token);
           Navigator.pop(context);
         } catch (e) {
           _showError(e);
         }
-        setState(() {
-          _loading = false;
-        });
+
         break;
       case FacebookLoginStatus.cancelledByUser:
         break;
       case FacebookLoginStatus.error:
         break;
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   Future<Null> _signInWithGoogle() async {
+    setState(() {
+      _loading = true;
+    });
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -90,6 +95,9 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
     } catch (e) {
       _showError(e);
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   void _signInWithEmail() {
