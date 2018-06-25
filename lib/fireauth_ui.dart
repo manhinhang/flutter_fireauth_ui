@@ -29,7 +29,6 @@ class FireAuthUISignInPage extends StatefulWidget {
   final num buttonWidth;
   final List<FireAuthUIProvider> providers;
 
-  // ignore: non_constant_default_value
   FireAuthUISignInPage(
       {this.buttonWidth = 210.0, this.providers});
 
@@ -85,12 +84,14 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
     });
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      await _auth.signInWithGoogle(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      Navigator.pop(context);
+      if(googleUser != null) {
+        GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        await _auth.signInWithGoogle(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        Navigator.pop(context);
+      }
     } catch (e) {
       _showError(e);
     }
