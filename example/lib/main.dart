@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fireauth_ui/fireauth_ui.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() => runApp(new MaterialApp(
       localizationsDelegates: [
@@ -31,10 +34,58 @@ class _MyAppState extends State<MyApp> {
   bool emailEnable = true;
   bool facebookEnable = true;
   bool googleEnable = true;
+  FirebaseUser user;
+  Stream<FirebaseUser> _userSteam;
+  StreamSubscription _onAuthStateChangedSubscription;
 
   @override
   initState() {
     super.initState();
+    _userSteam = FirebaseAuth.instance.onAuthStateChanged;
+    _onAuthStateChangedSubscription =
+        _userSteam.listen(onAuthStateChanged);
+  }
+
+  void onAuthStateChanged(FirebaseUser user) {
+    setState(() {
+      this.user = user;
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+    _onAuthStateChangedSubscription.cancel();
+  }
+
+  Widget _buildUserInfo() {
+    if (user == null) {
+      return new Container();
+    }
+    return new Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            new Center(child: new Text('User Info:'),),
+            new Row(children: <Widget>[
+              user.photoUrl == null
+                  ? new Container()
+                  : new Image.network(user.photoUrl),
+              new Expanded(
+                child: new Column(
+                  children: <Widget>[
+                    new Text("Display Name"),
+                    user.displayName == null
+                        ? new Container()
+                        : new Text(user.displayName)
+                  ],
+                ),
+              ),
+            ])
+          ],
+        ),
+      ),
+    );
   }
 
   void _showSignInPage() {
@@ -56,7 +107,19 @@ class _MyAppState extends State<MyApp> {
           builder: (context) => new FireAuthUISignInPage(
                 providers: providers,
               )),
-    );
+    ).then((_) {
+      setState(() {
+
+      });
+    });
+
+  }
+
+  Future _signOut() async {
+    setState(() {
+      user = null;
+    });
+    await FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -68,6 +131,10 @@ class _MyAppState extends State<MyApp> {
       body: new ListView(
         padding: EdgeInsets.all(24.0),
         children: <Widget>[
+          _buildUserInfo(),
+          new SizedBox(
+            height: 24.0,
+          ),
           new Row(
             children: <Widget>[
               new Expanded(child: new Text("Provider")),
@@ -112,8 +179,8 @@ class _MyAppState extends State<MyApp> {
           ),
           new Center(
             child: new RaisedButton(
-              onPressed: _showSignInPage,
-              child: new Text("Sign in"),
+              onPressed: user == null ? _showSignInPage : _signOut,
+              child: new Text(user == null ? "Sign in" : "Sign out"),
             ),
           )
         ],
