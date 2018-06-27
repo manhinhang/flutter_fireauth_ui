@@ -158,6 +158,14 @@ class FireAuthUILocalizations {
     );
   }
 
+  String errorMessage(String errorCode) {
+    return Intl.message(
+      'Unknown Error',
+      name: 'unknownError',
+      desc: 'unknown error',
+    );
+  }
+
 }
 
 class FireAuthUILocalizationsDelegate
