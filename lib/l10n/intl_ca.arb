@@ -1,0 +1,99 @@
+{
+  "@@last_modified": "2018-06-18T20:13:20.063452",
+  "facebookSignInButton": "Registrar-se amb Facebook",
+  "@facebookSignInButton": {
+    "description": "Text for facebook sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "googleSignInButton": "Registrar-se amb Google",
+  "@googleSignInButton": {
+    "description": "Text for google sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailSignInButton": "Registrar-se amb correo",
+  "@emailSignInButton": {
+    "description": "Text for Email sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signIn": "Registrar-se",
+  "@signIn": {
+    "description": "text of sign in",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUp": "Registra't",
+  "@signUp": {
+    "description": "text of sign up",
+    "type": "text",
+    "placeholders": {}
+  },
+  "email": "Correu",
+  "@email": {
+    "description": "email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailHint": "Introdueix el teu correu",
+  "@emailHint": {
+    "description": "enter your email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emptyEmailWarning": "Si us plau entri el seu correu",
+  "@emptyEmailWarning": {
+    "description": "email is empty",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidEmailWarning": "Correu no vàlid",
+  "@invalidEmailWarning": {
+    "description": "invalid eamil",
+    "type": "text",
+    "placeholders": {}
+  },
+  "continueText": "Continuar",
+  "@continueText": {
+    "description": "continue",
+    "type": "text",
+    "placeholders": {}
+  },
+  "error": "Error",
+  "@error": {
+    "description": "error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "okay": "D'acuerd",
+  "@okay": {
+    "description": "okay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayName": "Nom d'usuari",
+  "@displayName": {
+    "description": "Display Name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameHint": "Introduexi el seu nom d'usuari",
+  "@displayNameHint": {
+    "description": "Display Name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Contrasenya *",
+  "@password": {
+    "description": "password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forgotPassword": "Has oblidat la contrasenya ? ",
+  "@forgotPassword": {
+    "description": "forgotPassword",
+    "type": "text",
+    "placeholders": {}
+  }
+}

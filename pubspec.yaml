@@ -1,6 +1,6 @@
 name: fireauth_ui
 description: Allows you to quickly connect common Firebase auth with basic UI
-version: 0.0.2
+version: 0.0.3
 author: manhinhang <manhinhang@gmail.com>
 homepage: https://github.com/manhinhang/flutter_fireauth_ui
 

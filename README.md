@@ -162,6 +162,11 @@ Navigator.push(
 
 [google_sign_in](https://pub.dartlang.org/packages/google_sign_in)
 
+## Credit
+
+- [frmunozr10](https://github.com/frmunozr10)
+    - Spanish and Catalan language support enhancement
+
 License
 -------
 

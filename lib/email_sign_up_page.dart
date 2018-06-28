@@ -97,11 +97,17 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                       },
                       validator: _validateEmail,
                       enabled: !_loading,
+                      onFieldSubmitted: (_) {
+                        FocusScope
+                            .of(context)
+                            .requestFocus(_displayNameFocusNode);
+                      },
                     ),
                     new SizedBox(
                       height: 24.0,
                     ),
                     new TextFormField(
+                      focusNode: _displayNameFocusNode,
                       decoration: new InputDecoration(
                         hintText:
                             FireAuthUILocalizations.of(context).displayNameHint,
@@ -114,6 +120,11 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                         _displayName = val;
                       },
                       enabled: !_loading,
+                      onFieldSubmitted: (_) {
+                        FocusScope
+                            .of(context)
+                            .requestFocus(_passwordFocusNode);
+                      },
                     ),
                     new SizedBox(
                       height: 24.0,
@@ -124,6 +135,10 @@ class FireAuthEmailSignUpPageState extends State<FireAuthEmailSignUpPage> {
                         _password = val;
                       },
                       enabled: !_loading,
+                      focusNode: _passwordFocusNode,
+                      onFieldSubmitted: (_) {
+                        _onSignUp();
+                      },
                     ),
                     new RaisedButton(
                       color: Theme.of(context).primaryColor,
