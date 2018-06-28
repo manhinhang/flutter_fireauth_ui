@@ -8,7 +8,7 @@ Future<T> showErrorDialog<T>({@required BuildContext context, error}) {
   String errorMsg = "";
   if (error is PlatformException) {
     PlatformException platformException = error;
-    errorMsg = FireAuthUILocalizations.of(context).errorMessage(platformException.code);
+    errorMsg = platformException.details;//FireAuthUILocalizations.of(context).errorMessage(platformException.code);
   }
   return showDialog(
       context: context,
