@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fireauth_ui/dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -26,13 +27,11 @@ class FireauthUi {
 enum FireAuthUIProvider { Facebook, Google, Email }
 
 class FireAuthUISignInPage extends StatefulWidget {
-  final String title;
   final num buttonWidth;
   final List<FireAuthUIProvider> providers;
 
-  // ignore: non_constant_default_value
   FireAuthUISignInPage(
-      {this.title = "Sign In", this.buttonWidth = 210.0, this.providers});
+      {this.buttonWidth = 210.0, this.providers});
 
   @override
   State<StatefulWidget> createState() {
@@ -54,42 +53,52 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
   bool _loading = false;
 
   Future<Null> _signInWithFacebook() async {
+    setState(() {
+      _loading = true;
+    });
     var result = await _facebookLogin.logInWithReadPermissions(['email']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        setState(() {
-          _loading = true;
-        });
+
         try {
           await _auth.signInWithFacebook(accessToken: result.accessToken.token);
           Navigator.pop(context);
         } catch (e) {
-          _showError(e);
+          showErrorDialog(context:context, error: e);
         }
-        setState(() {
-          _loading = false;
-        });
+
         break;
       case FacebookLoginStatus.cancelledByUser:
         break;
       case FacebookLoginStatus.error:
         break;
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   Future<Null> _signInWithGoogle() async {
+    setState(() {
+      _loading = true;
+    });
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      await _auth.signInWithGoogle(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      Navigator.pop(context);
+      if(googleUser != null) {
+        GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        await _auth.signInWithGoogle(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        Navigator.pop(context);
+      }
     } catch (e) {
-      _showError(e);
+      showErrorDialog(context:context, error: e);
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   void _signInWithEmail() {
@@ -99,8 +108,6 @@ class FireAuthUISignInPageState extends State<FireAuthUISignInPage> {
           builder: (context) => new FireAuthUIEmailInputPage()),
     );
   }
-
-  void _showError(String errMsg) {}
 
   Widget _buildEmailButton() {
     return new EmailButton(

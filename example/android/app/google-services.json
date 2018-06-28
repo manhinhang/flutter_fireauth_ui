@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "406154979050",
+    "firebase_url": "https://fireauth-ui-51016.firebaseio.com",
+    "project_id": "fireauth-ui-51016",
+    "storage_bucket": "fireauth-ui-51016.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406154979050:android:e7ae24d5b68b3dc3",
+        "android_client_info": {
+          "package_name": "com.manhinhang.fireauthUiExample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406154979050-6jvm7kviv9cdvnklkorg9kf42qumv551.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.manhinhang.fireauthUiExample",
+            "certificate_hash": "a5cb3760834d68be90185223252ff9f3f52b7ab8"
+          }
+        },
+        {
+          "client_id": "406154979050-o4en3k7rue9tlu0blhoo3p5anbd3fck6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-_QdOos5HD4oM75RZaGz-GOseOHhHGUM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406154979050-o4en3k7rue9tlu0blhoo3p5anbd3fck6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "406154979050-ih8smunmepu9kba70ifgdrkm3a9qgtk9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.manhinhang.fireauthUiExample"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
