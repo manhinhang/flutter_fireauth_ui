@@ -1,0 +1,99 @@
+{
+  "@@last_modified": "2018-06-18T20:13:20.063452",
+  "facebookSignInButton": "Registrarse con Facebook",
+  "@facebookSignInButton": {
+    "description": "Text for facebook sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "googleSignInButton": "Registrarse con Google",
+  "@googleSignInButton": {
+    "description": "Text for google sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailSignInButton": "Registrarse con correo",
+  "@emailSignInButton": {
+    "description": "Text for Email sign in button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signIn": "Registrarse",
+  "@signIn": {
+    "description": "text of sign in",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUp": "Regístrate",
+  "@signUp": {
+    "description": "text of sign up",
+    "type": "text",
+    "placeholders": {}
+  },
+  "email": "Correo",
+  "@email": {
+    "description": "email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailHint": "Introduce tu correo",
+  "@emailHint": {
+    "description": "enter your email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emptyEmailWarning": "Por favor entra tu correo",
+  "@emptyEmailWarning": {
+    "description": "email is empty",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidEmailWarning": "Correo no válido",
+  "@invalidEmailWarning": {
+    "description": "invalid eamil",
+    "type": "text",
+    "placeholders": {}
+  },
+  "continueText": "Continuar",
+  "@continueText": {
+    "description": "continue",
+    "type": "text",
+    "placeholders": {}
+  },
+  "error": "Error",
+  "@error": {
+    "description": "error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "okay": "De acuerdo",
+  "@okay": {
+    "description": "okay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayName": "Nombre de usuario",
+  "@displayName": {
+    "description": "Display Name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameHint": "Introduzca su nombre de usuario",
+  "@displayNameHint": {
+    "description": "Display Name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Contraseña *",
+  "@password": {
+    "description": "password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forgotPassword": "Olvidaste la contraseña ? ",
+  "@forgotPassword": {
+    "description": "forgotPassword",
+    "type": "text",
+    "placeholders": {}
+  }
+}
