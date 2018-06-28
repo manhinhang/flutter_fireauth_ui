@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fireauth_ui/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fireauth_ui/email_sign_up_page.dart';
@@ -54,34 +55,12 @@ class FireAuthUIEmailInputPageState extends State<FireAuthUIEmailInputPage> {
           );
         }
       } catch (e) {
-        _showError(e);
+        showErrorDialog(context:context, error: e);
       }
       setState(() {
         _loading = false;
       });
     }
-  }
-
-  void _showError(error) {
-    String errorMsg = "";
-    if (error is PlatformException) {
-      PlatformException platformException = error;
-      errorMsg = platformException.details;
-    }
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => new AlertDialog(
-            title: new Text(FireAuthUILocalizations.of(context).error),
-            content: new Text(errorMsg),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: new Text(FireAuthUILocalizations.of(context).okay))
-            ],
-          ),
-    );
   }
 
   @override
